@@ -17,14 +17,11 @@ android {
     }
 
     buildTypes {
-        debug {
-            debuggable true
-        }
         release {
-            debuggable false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+    namespace 'jp.co.cyberagent.android.gpuimage'
 }
 
 ext {
