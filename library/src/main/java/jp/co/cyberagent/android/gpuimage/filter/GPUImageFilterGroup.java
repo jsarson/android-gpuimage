@@ -193,13 +193,28 @@ public class GPUImageFilterGroup extends GPUImageFilter {
             int previousTexture = textureId;
             for (int i = 0; i < size; i++) {
                 GPUImageFilter filter = mergedFilters.get(i);
+                if (filter instanceof GPUImageSaveCurrentStateFilter) {
+                    //here just as a tag, ignore
+                    continue;
+                }
+
                 boolean isNotLast = i < size - 1;
                 if (isNotLast) {
                     GLES20.glBindFramebuffer(GLES20.GL_FRAMEBUFFER, frameBuffers[i]);
                     GLES20.glClearColor(0, 0, 0, 0);
                 }
 
-                if (i == 0) {
+                if (filter instanceof GPUImageNormalBlendSavedStateFilter) {
+                    //get index of 1 before GPUImageCopyFilter
+                    int idx = getSaveStateFilterIndex() - 1;
+                    if (idx < 0) {
+                        //no copy, no paste
+                        continue;
+                    }
+                    int copyFrameBufferTexture = frameBufferTextures[idx];
+                    ((GPUImageNormalBlendSavedStateFilter) filter).setSecondarySourceTexture(copyFrameBufferTexture);
+                    filter.onDraw(previousTexture, glCubeBuffer, glTextureBuffer);
+                } else if (i == 0) {
                     filter.onDraw(previousTexture, cubeBuffer, textureBuffer);
                 } else if (i == size - 1) {
                     filter.onDraw(previousTexture, glCubeBuffer, (size % 2 == 0) ? glTextureFlipBuffer : glTextureBuffer);
@@ -213,6 +228,13 @@ public class GPUImageFilterGroup extends GPUImageFilter {
                 }
             }
         }
+    }
+
+    private int getSaveStateFilterIndex() {
+        for (int i = 0; i < mergedFilters.size(); i++) {
+            if (mergedFilters.get(i) instanceof GPUImageSaveCurrentStateFilter) return i;
+        }
+        return -1;
     }
 
     /**
