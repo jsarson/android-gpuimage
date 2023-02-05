@@ -5,4 +5,13 @@ package jp.co.cyberagent.android.gpuimage.filter;
  * and normal blend (paste) on top of result later on.
  */
 public class GPUImageSaveCurrentStateFilter extends GPUImageFilter {
+    private final String tag;
+
+    public String getTag() {
+        return tag;
+    }
+
+    public GPUImageSaveCurrentStateFilter(String tag) {
+        this.tag = tag;
+    }
 }

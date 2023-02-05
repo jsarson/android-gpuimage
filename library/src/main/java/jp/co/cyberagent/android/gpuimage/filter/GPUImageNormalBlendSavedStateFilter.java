@@ -7,4 +7,13 @@ package jp.co.cyberagent.android.gpuimage.filter;
  * @see GPUImageSaveCurrentStateFilter
  */
 public class GPUImageNormalBlendSavedStateFilter extends GPUImageNormalBlendFilter {
+    protected String tag;
+
+    public String getTag() {
+        return tag;
+    }
+
+    public GPUImageNormalBlendSavedStateFilter(String tag) {
+        this.tag = tag;
+    }
 }
