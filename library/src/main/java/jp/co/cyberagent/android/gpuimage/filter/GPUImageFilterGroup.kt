@@ -207,6 +207,9 @@ open class GPUImageFilterGroup @JvmOverloads constructor(private val filters: Mu
                     }
 
                     val copyFrameBufferTexture = frameBufferTextures?.getOrNull(idx) ?: continue
+                    // set source texture for normal blend to blend
+                    // GPUImageNormalBlendSavedStateFilter texture on top of other filters
+                    // (e.g original on top of outline)
                     filter.setSecondarySourceTexture(copyFrameBufferTexture)
                     filter.onDraw(
                         previousTexture,
