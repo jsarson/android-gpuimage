@@ -14,6 +14,7 @@ public class GPUImageNormalBlendSavedStateFilter extends GPUImageNormalBlendFilt
     }
 
     public GPUImageNormalBlendSavedStateFilter(String tag) {
+        super(false);
         this.tag = tag;
     }
 }
