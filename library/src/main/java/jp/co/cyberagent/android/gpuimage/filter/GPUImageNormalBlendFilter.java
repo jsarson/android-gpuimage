@@ -45,11 +45,11 @@ public class GPUImageNormalBlendFilter extends GPUImageTwoInputFilter {
                 "     \n" +
                 "     lowp vec4 outputColor;\n" +
                 "     \n" +
-                "     outputColor.r = c1.r + c2.r * c2.a * (1.0 - c1.a);\n" +
+                "     outputColor.r = c1.r * c1.a + c2.r * c2.a * (1.0 - c1.a);\n" +
                 "\n" +
-                "     outputColor.g = c1.g + c2.g * c2.a * (1.0 - c1.a);\n" +
+                "     outputColor.g = c1.g * c1.a + c2.g * c2.a * (1.0 - c1.a);\n" +
                 "     \n" +
-                "     outputColor.b = c1.b + c2.b * c2.a * (1.0 - c1.a);\n" +
+                "     outputColor.b = c1.b * c1.a + c2.b * c2.a * (1.0 - c1.a);\n" +
                 "     \n" +
                 "     outputColor.a = c1.a + c2.a * (1.0 - c1.a);\n" +
                 "     \n";
