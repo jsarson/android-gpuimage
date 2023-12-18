@@ -494,6 +494,10 @@ public class GLTextureView extends TextureView
         surfaceTextureListeners.add(listener);
     }
 
+    public void removeSurfaceTextureListener(SurfaceTextureListener listener) {
+        surfaceTextureListeners.remove(listener);
+    }
+
     public void onSurfaceTextureAvailable(SurfaceTexture surface, int width, int height) {
         surfaceCreated(surface);
         surfaceChanged(surface, 0, width, height);
