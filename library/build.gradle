@@ -1,5 +1,7 @@
-apply plugin: 'com.android.library'
-apply plugin: 'kotlin-android'
+plugins {
+    alias(libs.plugins.android.library)
+    alias(libs.plugins.kotlin.android)
+}
 
 kotlin {
     jvmToolchain(17)
@@ -13,7 +15,7 @@ java {
 android {
     defaultConfig {
         compileSdk = 34
-        minSdkVersion 26
+        minSdkVersion 24
         targetSdkVersion 35
         ndkVersion = "28.1.13356709"
 
