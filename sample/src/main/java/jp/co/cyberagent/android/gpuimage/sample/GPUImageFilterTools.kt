@@ -21,6 +21,7 @@ import android.content.Context
 import android.graphics.BitmapFactory
 import android.graphics.PointF
 import android.opengl.Matrix
+import android.util.Log
 import jp.co.cyberagent.android.gpuimage.filter.*
 import java.util.*
 
@@ -151,58 +152,70 @@ object GPUImageFilterTools {
                     GPUImageContrastFilter(),
                     GPUImageDirectionalSobelEdgeDetectionFilter(),
                     GPUImageGrayscaleFilter()
-                )
+                ).toMutableList()
             )
+
             FilterType.SATURATION -> GPUImageSaturationFilter(1.0f)
             FilterType.EXPOSURE -> GPUImageExposureFilter(0.0f)
             FilterType.HIGHLIGHT_SHADOW -> GPUImageHighlightShadowFilter(
                 0.0f,
                 1.0f
             )
+
             FilterType.MONOCHROME -> GPUImageMonochromeFilter(
                 1.0f, floatArrayOf(0.6f, 0.45f, 0.3f, 1.0f)
             )
+
             FilterType.OPACITY -> GPUImageOpacityFilter(1.0f)
             FilterType.RGB -> GPUImageRGBFilter(1.0f, 1.0f, 1.0f)
             FilterType.WHITE_BALANCE -> GPUImageWhiteBalanceFilter(
                 5000.0f,
                 0.0f
             )
+
             FilterType.VIGNETTE -> GPUImageVignetteFilter(
                 PointF(0.5f, 0.5f),
                 floatArrayOf(0.0f, 0.0f, 0.0f),
                 0.3f,
                 0.75f
             )
+
             FilterType.TONE_CURVE -> GPUImageToneCurveFilter().apply {
                 setFromCurveFileInputStream(context.resources.openRawResource(R.raw.tone_cuver_sample))
             }
+
             FilterType.LUMINANCE -> GPUImageLuminanceFilter()
             FilterType.LUMINANCE_THRESHSOLD -> GPUImageLuminanceThresholdFilter(0.5f)
             FilterType.BLEND_DIFFERENCE -> createBlendFilter(
                 context,
                 GPUImageDifferenceBlendFilter::class.java
             )
+
             FilterType.BLEND_SOURCE_OVER -> createBlendFilter(
                 context,
                 GPUImageSourceOverBlendFilter::class.java
             )
+
             FilterType.BLEND_COLOR_BURN -> createBlendFilter(
                 context,
                 GPUImageColorBurnBlendFilter::class.java
             )
+
             FilterType.BLEND_COLOR_DODGE -> createBlendFilter(
                 context,
                 GPUImageColorDodgeBlendFilter::class.java
             )
+
             FilterType.BLEND_DARKEN -> createBlendFilter(
                 context,
                 GPUImageDarkenBlendFilter::class.java
             )
+
             FilterType.BLEND_DISSOLVE -> createBlendFilter(
                 context,
                 GPUImageDissolveBlendFilter::class.java
             )
+
             FilterType.BLEND_EXCLUSION -> createBlendFilter(
                 context,
                 GPUImageExclusionBlendFilter::class.java
@@ -212,66 +225,82 @@ object GPUImageFilterTools {
                 context,
                 GPUImageHardLightBlendFilter::class.java
             )
+
             FilterType.BLEND_LIGHTEN -> createBlendFilter(
                 context,
                 GPUImageLightenBlendFilter::class.java
             )
+
             FilterType.BLEND_ADD -> createBlendFilter(
                 context,
                 GPUImageAddBlendFilter::class.java
             )
+
             FilterType.BLEND_DIVIDE -> createBlendFilter(
                 context,
                 GPUImageDivideBlendFilter::class.java
             )
+
             FilterType.BLEND_MULTIPLY -> createBlendFilter(
                 context,
                 GPUImageMultiplyBlendFilter::class.java
             )
+
             FilterType.BLEND_OVERLAY -> createBlendFilter(
                 context,
                 GPUImageOverlayBlendFilter::class.java
             )
+
             FilterType.BLEND_SCREEN -> createBlendFilter(
                 context,
                 GPUImageScreenBlendFilter::class.java
             )
+
             FilterType.BLEND_ALPHA -> createBlendFilter(
                 context,
                 GPUImageAlphaBlendFilter::class.java
             )
+
             FilterType.BLEND_COLOR -> createBlendFilter(
                 context,
                 GPUImageColorBlendFilter::class.java
             )
+
             FilterType.BLEND_HUE -> createBlendFilter(
                 context,
                 GPUImageHueBlendFilter::class.java
             )
+
             FilterType.BLEND_SATURATION -> createBlendFilter(
                 context,
                 GPUImageSaturationBlendFilter::class.java
             )
+
             FilterType.BLEND_LUMINOSITY -> createBlendFilter(
                 context,
                 GPUImageLuminosityBlendFilter::class.java
             )
+
             FilterType.BLEND_LINEAR_BURN -> createBlendFilter(
                 context,
                 GPUImageLinearBurnBlendFilter::class.java
             )
+
             FilterType.BLEND_SOFT_LIGHT -> createBlendFilter(
                 context,
                 GPUImageSoftLightBlendFilter::class.java
             )
+
             FilterType.BLEND_SUBTRACT -> createBlendFilter(
                 context,
                 GPUImageSubtractBlendFilter::class.java
             )
+
             FilterType.BLEND_CHROMA_KEY -> createBlendFilter(
                 context,
                 GPUImageChromaKeyBlendFilter::class.java
             )
+
             FilterType.BLEND_NORMAL -> createBlendFilter(
                 context,
                 GPUImageNormalBlendFilter::class.java
@@ -280,6 +309,7 @@ object GPUImageFilterTools {
             FilterType.LOOKUP_AMATORKA -> GPUImageLookupFilter().apply {
                 bitmap = BitmapFactory.decodeResource(context.resources, R.drawable.lookup_amatorka)
             }
+
             FilterType.GAUSSIAN_BLUR -> GPUImageGaussianBlurFilter()
             FilterType.CROSSHATCH -> GPUImageCrosshatchFilter()
             FilterType.BOX_BLUR -> GPUImageBoxBlurFilter()
@@ -578,6 +608,7 @@ object GPUImageFilterTools {
         private inner class GaussianBlurAdjuster(filter: GPUImageGaussianBlurFilter) :
             Adjuster<GPUImageGaussianBlurFilter>(filter) {
             override fun adjust(percentage: Int) {
+                Log.e("GPUImageFilterTools", "Adjusting Gaussian Blur with percentage: $percentage")
                 filter.setBlurSize(range(percentage, 0.0f, 1.0f))
             }
         }

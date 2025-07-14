@@ -1592,10 +1592,19 @@ public class GLTextureView extends TextureView
             synchronized (glThreadManager) {
                 shouldExit = true;
                 glThreadManager.notifyAll();
+                long timeout = 2000;
+                long endTime = System.currentTimeMillis() + timeout;
                 while (!exited) {
+                    long remaining = endTime - System.currentTimeMillis();
+                    if (remaining <= 0) {
+                        Log.w("GLThread", "GLThread did not exit in " + timeout + "ms!");
+                        break;
+                    }
+                    Log.w("GLThread", "GLThread exit in " + remaining + "ms!");
                     try {
-                        glThreadManager.wait();
+                        glThreadManager.wait(remaining);
                     } catch (InterruptedException ex) {
+                        Log.w("GLThread", "GLThread exit exteption " + remaining + "ms!");
                         Thread.currentThread().interrupt();
                     }
                 }
@@ -1624,8 +1633,8 @@ public class GLTextureView extends TextureView
 
         // Once the thread is started, all accesses to the following member
         // variables are protected by the glThreadManager monitor
-        private boolean shouldExit;
-        private boolean exited;
+        private volatile boolean shouldExit;
+        private volatile boolean exited;
         private boolean requestPaused;
         private boolean paused;
         private boolean hasSurface;
