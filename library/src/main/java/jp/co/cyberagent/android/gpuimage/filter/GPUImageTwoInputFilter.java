@@ -95,6 +95,17 @@ public class GPUImageTwoInputFilter extends GPUImageFilter {
         });
     }
 
+    /**
+     * sets the [filterSourceTexture2] to point at the given texture pointer
+     *
+     * @param texture2 pointer to a texture that will be blended on top of the input/primary image
+     *                 texture2 should be a pointer recognized by the GLES20 framework or it will fail
+     * @see [onDrawArraysPre] method in
+     */
+    protected void setSecondarySourceTexture(int texture2) {
+        filterSourceTexture2 = texture2;
+    }
+
     public Bitmap getBitmap() {
         return bitmap;
     }
